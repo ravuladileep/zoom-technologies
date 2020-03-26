@@ -55,19 +55,19 @@
 <!-- End table branch data -->
 
 <!-- The Modal -->
-<div class="modal" id="myModal">
+<div class="modal"   id="myModal">
   <div class="modal-dialog">
       <div class="modal-content">
 
           <!-- Modal Header -->
           <div class="modal-header">
               <h4 class="modal-title">Modal Heading</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <button type="button"  class="close" #modal data-dismiss="modal">&times;</button>
           </div>
 
           <!-- Modal body -->
           <div class="modal-body">
-              <form [formGroup]="branchSpecificData" (ngSubmit)="updateBranch()">
+              <form [formGroup]="updatebranchSpecificData" (ngSubmit)="updateBranch()">
                   <div class="form-group">
                       <div class="row">
                           <div class="col-md-4">
@@ -131,7 +131,7 @@
 
                   <div class="form-group">
                       <div class="text-right">
-                          <button type="submit" class="btn btn-primary" [disabled]="branchSpecificData.invalid">Update</button>
+                          <button type="submit" class="btn btn-primary" [disabled]="updatebranchSpecificData.invalid">Update</button>
                           &nbsp;
                           <button type="submit" class="btn btn-primary " data-dismiss="modal">Cancel</button>
                       </div>
@@ -144,3 +144,6 @@
       </div>
   </div>
 </div>
+
+
+

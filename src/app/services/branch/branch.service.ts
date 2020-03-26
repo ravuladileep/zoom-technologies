@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Branch } from 'src/app/entities/branch.model';
+import { IBranch } from 'src/app/entities/branch.model';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
@@ -12,33 +12,33 @@ export class BranchService {
 
   constructor(private http: HttpClient) {}
 
-  public addBranch(data): Observable<Branch> {
+  public addBranch(data): Observable<IBranch> {
     return this.http
-      .post<Branch>(this.branchUrl, data)
+      .post<IBranch>(this.branchUrl, data)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  public getBranchData(): Observable<Branch[]> {
+  public getBranchData(): Observable<IBranch[]> {
     return this.http
-      .get<Branch[]>(this.branchUrl)
+      .get<IBranch[]>(this.branchUrl)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  public updateBranchData(id, data): Observable<Branch> {
+  public updateBranchData(id, data): Observable<IBranch> {
     return this.http
-      .patch<Branch>(this.branchUrl + id, data)
+      .patch<IBranch>(this.branchUrl + id, data)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  public deleteBranch(id): Observable<Branch> {
+  public deleteBranch(id): Observable<IBranch> {
     return this.http
-      .delete<Branch>(this.branchUrl + id)
+      .delete<IBranch>(this.branchUrl + id)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  public getBranchById(id): Observable<Branch> {
+  public getBranchById(id): Observable<IBranch> {
     return this.http
-      .get<Branch>(this.branchUrl + id)
+      .get<IBranch>(this.branchUrl + id)
       .pipe(retry(1), catchError(this.errorHandler));
   }
 

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { BranchService } from 'src/app/services/branch/branch.service';
-import { Branch } from 'src/app/entities/branch.model';
-import { Validators, FormBuilder } from '@angular/forms';
+import { IBranch } from 'src/app/entities/branch.model';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+declare var $: any;
 
 @Component({
   selector: 'app-edit-branch',
@@ -9,16 +10,16 @@ import { Validators, FormBuilder } from '@angular/forms';
   styleUrls: ['./edit-branch.component.css']
 })
 export class EditBranchComponent implements OnInit {
-  branchDatalist: Branch[] = [];
-  branchSpecificData: any;
-  public index: any;
+  @ViewChild('modal') modal: ElementRef;
+  branchDatalist: IBranch[] = [];
+  updatebranchSpecificData: FormGroup;
   public deleteindex: any;
   public updateid: any;
   public updateindex: any;
   public sortedData: any;
   public term: any;
 
-  constructor(private branchService: BranchService, private fb: FormBuilder) {
+  constructor(private branchService: BranchService, private fb: FormBuilder, private renderer: Renderer2) {
     this.branchForm();
   }
 
@@ -27,7 +28,7 @@ export class EditBranchComponent implements OnInit {
   }
 
   public branchForm(): void {
-    this.branchSpecificData = this.fb.group({
+    this.updatebranchSpecificData = this.fb.group({
       branchName: ['', [Validators.required]],
       branchCode: ['', [Validators.required]],
       branchAddress: ['', [Validators.required]],
@@ -36,7 +37,7 @@ export class EditBranchComponent implements OnInit {
   }
 
   get branchData() {
-    return this.branchSpecificData.controls;
+    return this.updatebranchSpecificData.controls;
   }
 
   /**
@@ -46,7 +47,7 @@ export class EditBranchComponent implements OnInit {
    * @ author   : dileep_ravula
    */
 
-  public loadBranchdata() {
+  public loadBranchdata(): void {
     this.branchService.getBranchData().subscribe(res => {
       this.branchDatalist = res;
       this.sortedData = [...this.branchDatalist];
@@ -84,7 +85,7 @@ export class EditBranchComponent implements OnInit {
     this.branchService.getBranchById(data.id).subscribe(res => {
       this.updateindex = i;
       this.updateid = data.id;
-      this.branchSpecificData = this.fb.group({
+      this.updatebranchSpecificData.patchValue({
         branchName: [res.branchName],
         branchCode: [res.branchCode],
         branchAddress: [res.branchAddress],
@@ -102,11 +103,14 @@ export class EditBranchComponent implements OnInit {
 
   public updateBranch(): void {
     this.branchService
-      .updateBranchData(this.updateid, this.branchSpecificData.value)
+      .updateBranchData(this.updateid, this.updatebranchSpecificData.value)
       .subscribe(res => {
-        this.branchDatalist[this.updateindex] = this.branchSpecificData.value;
+        this.branchDatalist[this.updateindex] = this.updatebranchSpecificData.value;
         alert('Branch updated sucessfully');
       });
+    this.sortedData[this.updateindex] = this.updatebranchSpecificData.value;
+    $(this.modal.nativeElement).click();
+
   }
 
   /**
