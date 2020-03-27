@@ -9,24 +9,25 @@ import { BranchService } from 'src/app/services/branch/branch.service';
   styleUrls: ['./add-branch.component.css']
 })
 export class AddBranchComponent implements OnInit {
-  branchSpecificData: FormGroup;
+  public branchSpecificData: FormGroup;
 
   constructor(private fb: FormBuilder, private branchService: BranchService) {
     this.addbranchform();
-   }
-  ngOnInit(): void {
+  }
+  ngOnInit(): void {}
+
+  public addbranchform() {
+    this.branchSpecificData = this.fb.group({
+      branchName: ['', [Validators.required]],
+      branchCode: ['', [Validators.required]],
+      branchAddress: ['', [Validators.required]],
+      branchContactNumber: ['', [Validators.required]]
+    });
   }
 
-public addbranchform() {
-  this.branchSpecificData = this.fb.group({
-    branchName: ['', [Validators.required]],
-    branchCode: ['', [Validators.required]],
-    branchAddress: ['', [Validators.required]],
-    branchContactNumber: ['', [Validators.required]]
-  });
-}
-
-get branchData() { return this.branchSpecificData.controls; }
+  get branchData() {
+    return this.branchSpecificData.controls;
+  }
 
   /**
    * @ function : Submit()
@@ -35,12 +36,13 @@ get branchData() { return this.branchSpecificData.controls; }
    * @ author   : dileep_ravula
    */
 
-public Submit(): void {
-  this.branchService.addBranch(this.branchSpecificData.value).subscribe((res) => {
-    console.log('saved');
-  });
-  alert('Branch added successfully');
-  this.branchSpecificData.reset();
-}
-
+  public Submit(): void {
+    this.branchService
+      .addBranch(this.branchSpecificData.value)
+      .subscribe(res => {
+        console.log('saved');
+      });
+    alert('Branch added successfully');
+    this.branchSpecificData.reset();
+  }
 }

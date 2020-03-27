@@ -12,11 +12,11 @@ export namespace CommonConstants {
   export const API_TIME_DURATION = 10000; // in millisecond
 
   export function jsons() {
-  return JSON.stringify;
+    return JSON.stringify;
   }
 
   export function jsonp() {
-  return JSON.parse;
+    return JSON.parse;
   }
 
   export function getTodayDate() {
@@ -50,6 +50,4 @@ export namespace CommonConstants {
   export function clearLocalStorage() {
     return localStorage.clear();
   }
-
-
 }

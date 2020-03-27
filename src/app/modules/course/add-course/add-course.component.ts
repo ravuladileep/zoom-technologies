@@ -1,5 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormArray,
+  FormControl
+} from '@angular/forms';
 import { ICourse } from 'src/app/entities/course.model';
 import { CourseService } from 'src/app/services/course/course.service';
 declare var $: any;
@@ -14,7 +20,7 @@ export class AddCourseComponent implements OnInit {
   public branch: FormArray;
   public taxValue: number;
   public totalCourseFee: number;
- // branches = ['Ameerpet', 'Banjara Hills', 'Dilsukh nagar', 'Secunderabad', 'Test linux', 'Surat', 'Vijayawada'];
+  // branches = ['Ameerpet', 'Banjara Hills', 'Dilsukh nagar', 'Secunderabad', 'Test linux', 'Surat', 'Vijayawada'];
   Data = [
     { name: 'Ameerpet', value: 'Ameerpet' },
     { name: 'Banjara Hills', value: 'Banjara Hills' },
@@ -27,15 +33,14 @@ export class AddCourseComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private courseService: CourseService) {
     this.addCourseForm();
-   }
-
-  ngOnInit(): void {
   }
+
+  ngOnInit(): void {}
 
   public addCourseForm(): void {
     this.addCourseSpecificForm = this.fb.group({
-      coursename : ['', [Validators.required]],
-      branch : this.fb.array([]),
+      coursename: ['', [Validators.required]],
+      branch: this.fb.array([]),
       fees: ['', [Validators.required]],
       servicetax: [''],
       totalfee: [''],
@@ -43,10 +48,10 @@ export class AddCourseComponent implements OnInit {
     });
   }
 
-
-
   public onCheckboxChange(e) {
-    const branch: FormArray = this.addCourseSpecificForm.get('branch') as FormArray;
+    const branch: FormArray = this.addCourseSpecificForm.get(
+      'branch'
+    ) as FormArray;
 
     if (e.target.checked) {
       branch.push(new FormControl(e.target.value));
@@ -62,16 +67,15 @@ export class AddCourseComponent implements OnInit {
     }
   }
 
-  get courseData() { return this.addCourseSpecificForm.controls; }
-
-
-
-  public calculteTax(): void {
-    this.taxValue = ((this.courseData.fees.value * (18)) / 100);
-    this.totalCourseFee = (this.courseData.fees.value) + this.taxValue;
-    console.log(this.totalCourseFee, this.taxValue);
+  get courseData() {
+    return this.addCourseSpecificForm.controls;
   }
 
+  public calculteTax(): void {
+    this.taxValue = (this.courseData.fees.value * 18) / 100;
+    this.totalCourseFee = this.courseData.fees.value + this.taxValue;
+    console.log(this.totalCourseFee, this.taxValue);
+  }
 
   /**
    * @ function : Submit
@@ -81,12 +85,13 @@ export class AddCourseComponent implements OnInit {
    */
 
   public Submit(): void {
-    this.courseService.addCourse(this.addCourseSpecificForm.value).subscribe((res) => {
-      console.log('saved');
-    });
+    this.courseService
+      .addCourse(this.addCourseSpecificForm.value)
+      .subscribe(res => {
+        console.log('saved');
+      });
     console.log(this.addCourseSpecificForm.value);
     alert('Course added successfully');
     this.addCourseSpecificForm.reset();
   }
-
 }

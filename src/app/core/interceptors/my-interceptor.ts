@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import {HttpInterceptor, HttpRequest, HttpHandler} from '@angular/common/http';
 import { CommonConstants } from 'src/app/config/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MyInterceptor implements HttpInterceptor {
-
-  constructor() { }
+  constructor() {}
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token =  CommonConstants.getToken();
+    const token = CommonConstants.getToken();
     const clonedReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
@@ -17,5 +16,4 @@ export class MyInterceptor implements HttpInterceptor {
     });
     return next.handle(clonedReq);
   }
-
 }

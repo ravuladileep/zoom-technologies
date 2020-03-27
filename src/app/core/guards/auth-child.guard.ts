@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivateChild, Router} from '@angular/router';
+import { CanActivateChild, Router } from '@angular/router';
 import { CommonConstants } from 'src/app/config/constants';
 
 @Injectable({
@@ -10,9 +10,9 @@ export class AuthChildGuard implements CanActivateChild {
   canActivateChild(): boolean {
     if (CommonConstants.getToken()) {
       return true;
-      } else {
-        this.router.navigate(['login']);
-        return false;
-      }
+    } else {
+      this.router.navigate(['login']);
+      return false;
+    }
   }
 }

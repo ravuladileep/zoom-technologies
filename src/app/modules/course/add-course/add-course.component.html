@@ -6,7 +6,7 @@
 
   <div class="bg-white py-5">
       <div class="col-md-8 ">
-          <form  [formGroup]="addCourseSpecificForm" (ngSubmit)="Submit()">
+          <form [formGroup]="addCourseSpecificForm" (ngSubmit)="Submit()">
 
               <div class="form-group">
                   <div class="row">
@@ -24,24 +24,25 @@
                   </div>
               </div>
 
-              <div class="form-group" >
+              <div class="form-group">
                   <div class="row">
                       <div class="col-md-4 ">
                           <label class="control-label">Branch</label>
                       </div>
                       <div class="col-md-8">
-                        <div class="form-check-inline"  *ngFor="let data of Data;let i=index ">
-                          <label class="checkbox-inline"  >
-                            <input type="checkbox"
-                             class="form-check-input"  [value]="data.value" (change)="onCheckboxChange($event)" >
-                          {{data.name}}</label>
 
-                        </div>
+                          <div class="form-check-inline" *ngFor="let data of Data;let i=index ">
+                              <label class="checkbox-inline">
+                                  <input type="checkbox" class="form-check-input" [value]="data.value" (change)="onCheckboxChange($event)"> {{data.name}}
+                              </label>
+                          </div>
+
                           <div class="alert alert-danger" *ngIf="courseData.branch.invalid && (courseData.branch.dirty||courseData.branch.touched)">
                               <div *ngIf="courseData.branch.errors.required">
                                   Branch Code is required
                               </div>
                           </div>
+
                       </div>
                   </div>
               </div>
@@ -71,7 +72,7 @@
                           <input class="form-control" [value]="taxValue" readonly="true" formControlName="servicetax" placeholder="Service Tax">
                           <div class="alert alert-danger" *ngIf="courseData.servicetax.invalid && (courseData.servicetax.dirty||courseData.servicetax.touched)">
                               <div *ngIf="courseData.servicetax.errors.required">
-                                servicetax is required
+                                  servicetax is required
                               </div>
                           </div>
                       </div>
@@ -79,36 +80,36 @@
               </div>
 
               <div class="form-group">
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="control-label">Total Fee</label>
-                    </div>
-                    <div class="col-md-8">
-                        <input class="form-control" readonly="true" [value]="totalCourseFee" formControlName="totalfee" placeholder="Total Fee">
-                        <div class="alert alert-danger" *ngIf="courseData.totalfee.invalid && (courseData.totalfee.dirty||courseData.totalfee.touched)">
-                            <div *ngIf="courseData.totalfee.errors.required">
-                              totalfee is required
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-              <div class="row">
-                  <div class="col-md-4">
-                      <label class="control-label">Seats</label>
-                  </div>
-                  <div class="col-md-8">
-                      <input class="form-control"  formControlName="seats" placeholder="Seats">
-                      <div class="alert alert-danger" *ngIf="courseData.seats.invalid && (courseData.seats.dirty||courseData.seats.touched)">
-                          <div *ngIf="courseData.seats.errors.required">
-                              seats is required
+                  <div class="row">
+                      <div class="col-md-4">
+                          <label class="control-label">Total Fee</label>
+                      </div>
+                      <div class="col-md-8">
+                          <input class="form-control" readonly="true" [value]="totalCourseFee" formControlName="totalfee" placeholder="Total Fee">
+                          <div class="alert alert-danger" *ngIf="courseData.totalfee.invalid && (courseData.totalfee.dirty||courseData.totalfee.touched)">
+                              <div *ngIf="courseData.totalfee.errors.required">
+                                  totalfee is required
+                              </div>
                           </div>
                       </div>
                   </div>
               </div>
-          </div>
+
+              <div class="form-group">
+                  <div class="row">
+                      <div class="col-md-4">
+                          <label class="control-label">Seats</label>
+                      </div>
+                      <div class="col-md-8">
+                          <input class="form-control" formControlName="seats" placeholder="Seats">
+                          <div class="alert alert-danger" *ngIf="courseData.seats.invalid && (courseData.seats.dirty||courseData.seats.touched)">
+                              <div *ngIf="courseData.seats.errors.required">
+                                  seats is required
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
 
               <div class="form-group">
                   <div class="text-right">

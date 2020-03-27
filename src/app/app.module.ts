@@ -36,6 +36,9 @@ import { AddStudentComponent } from './modules/student-info/add-student/add-stud
 import { EditStudentComponent } from './modules/student-info/edit-student/edit-student.component';
 import { SearchStudentComponent } from './modules/student-info/search-student/search-student.component';
 import { StudentImageUploadComponent } from './modules/student-info/student-image-upload/student-image-upload.component';
+import { OrderByPipe } from './shared/pipes/order-by.pipe';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,8 @@ import { StudentImageUploadComponent } from './modules/student-info/student-imag
     AddStudentComponent,
     EditStudentComponent,
     SearchStudentComponent,
-    StudentImageUploadComponent
+    StudentImageUploadComponent,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,9 @@ import { StudentImageUploadComponent } from './modules/student-info/student-imag
     FormsModule,
     HttpClientModule,
     RouterModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,
+    NgbPaginationModule,
+    NgxPaginationModule
   ],
   providers: [BranchService, CourseService, AuthGuard, AuthChildGuard, {
     provide: HTTP_INTERCEPTORS,

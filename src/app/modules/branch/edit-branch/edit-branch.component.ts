@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { BranchService } from 'src/app/services/branch/branch.service';
 import { IBranch } from 'src/app/entities/branch.model';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+
 declare var $: any;
 
 @Component({
@@ -11,15 +12,24 @@ declare var $: any;
 })
 export class EditBranchComponent implements OnInit {
   @ViewChild('modal') modal: ElementRef;
-  branchDatalist: IBranch[] = [];
-  updatebranchSpecificData: FormGroup;
+  public branchDatalist: IBranch[] = [];
+  public updatebranchSpecificData: FormGroup;
   public deleteindex: any;
   public updateid: any;
   public updateindex: any;
   public sortedData: any;
   public term: any;
 
-  constructor(private branchService: BranchService, private fb: FormBuilder, private renderer: Renderer2) {
+  //  orderBy data
+  public records = this.sortedData;
+  public isDesc = false;
+  public column;
+  public direction: number;
+
+  constructor(
+    private branchService: BranchService,
+    private fb: FormBuilder
+  ) {
     this.branchForm();
   }
 
@@ -54,7 +64,6 @@ export class EditBranchComponent implements OnInit {
     });
   }
 
-
   /**
    * @ function : sortData
    * @ Purpose  : sorting the branchdata
@@ -68,11 +77,23 @@ export class EditBranchComponent implements OnInit {
       this.sortedData = [...this.branchDatalist];
     }
     if (this.sortedData.length >= event.target.value) {
-      return this.sortedData.length =  event.target.value;
-     }
-    return this.sortedData = [...this.branchDatalist];
+      return (this.sortedData.length = event.target.value);
+    }
+    return (this.sortedData = [...this.branchDatalist]);
   }
 
+  /**
+   * @ function : order
+   * @ Purpose  : table data asc||desc order
+   * @ version  : 1.0.1
+   * @ author   : dileep_ravula
+   */
+
+  public order(property): void {
+    this.isDesc = !this.isDesc; // change the direction
+    this.column = property;
+    this.direction = this.isDesc ? 1 : -1;
+  }
 
   /**
    * @ function : editBranchdata
@@ -105,12 +126,13 @@ export class EditBranchComponent implements OnInit {
     this.branchService
       .updateBranchData(this.updateid, this.updatebranchSpecificData.value)
       .subscribe(res => {
-        this.branchDatalist[this.updateindex] = this.updatebranchSpecificData.value;
+        this.branchDatalist[
+          this.updateindex
+        ] = this.updatebranchSpecificData.value;
         alert('Branch updated sucessfully');
       });
     this.sortedData[this.updateindex] = this.updatebranchSpecificData.value;
     $(this.modal.nativeElement).click();
-
   }
 
   /**
@@ -130,6 +152,4 @@ export class EditBranchComponent implements OnInit {
       });
     }
   }
-
-
 }

@@ -8,7 +8,6 @@ import { ICourse } from 'src/app/entities/course.model';
   providedIn: 'root'
 })
 export class CourseService {
-
   public courseUrl = 'http://localhost:3000/course/';
 
   constructor(private http: HttpClient) {}
@@ -55,6 +54,4 @@ export class CourseService {
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
-
-
 }

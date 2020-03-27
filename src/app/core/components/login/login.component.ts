@@ -11,13 +11,12 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   constructor(private fb: FormBuilder, private router: Router) {
-    this.login();
+    this.userLoginForm();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  login() {
+  public userLoginForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -28,9 +27,8 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     CommonConstants.setToken('dummy token');
     this.router.navigate(['dashboard']);
   }
-
 }
