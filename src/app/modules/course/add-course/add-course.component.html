@@ -6,7 +6,7 @@
 
   <div class="bg-white py-5">
       <div class="col-md-8 ">
-          <form [formGroup]="addCourseSpecificForm" (ngSubmit)="Submit()">
+          <form [formGroup]="addCourseSpecificForm" (ngSubmit)="submit()">
 
               <div class="form-group">
                   <div class="row">
@@ -31,15 +31,15 @@
                       </div>
                       <div class="col-md-8">
 
-                          <div class="form-check-inline" *ngFor="let data of Data;let i=index ">
+                          <div class="form-check-inline" formArrayName="branch" *ngFor="let branch of addCourseSpecificForm['controls'].branch['controls']; let i = index">
                               <label class="checkbox-inline">
-                                  <input type="checkbox" class="form-check-input" [value]="data.value" (change)="onCheckboxChange($event)"> {{data.name}}
+                                  <input type="checkbox" class="form-check-input" [formControlName]="i"> {{branchesData[i].name}}
                               </label>
                           </div>
 
                           <div class="alert alert-danger" *ngIf="courseData.branch.invalid && (courseData.branch.dirty||courseData.branch.touched)">
-                              <div *ngIf="courseData.branch.errors.required">
-                                  Branch Code is required
+                              <div *ngIf="courseData.branch.errors">
+                                  Branch Code is required(atleast 1 branch should be selected)
                               </div>
                           </div>
 
@@ -53,7 +53,7 @@
                           <label class="control-label">Fees</label>
                       </div>
                       <div class="col-md-8">
-                          <input class="form-control" formControlName="fees" placeholder="Fee">
+                          <input class="form-control" formControlName="fees" placeholder="Fee" (keyup)="calculateTax()">
                           <div class="alert alert-danger" *ngIf="courseData.fees.invalid && (courseData.fees.dirty||courseData.fees.touched)">
                               <div *ngIf="courseData.fees.errors.required">
                                   Branch Address is required
@@ -101,7 +101,7 @@
                           <label class="control-label">Seats</label>
                       </div>
                       <div class="col-md-8">
-                          <input class="form-control" formControlName="seats" placeholder="Seats">
+                          <input class="form-control" formControlName="seats" placeholder="seats">
                           <div class="alert alert-danger" *ngIf="courseData.seats.invalid && (courseData.seats.dirty||courseData.seats.touched)">
                               <div *ngIf="courseData.seats.errors.required">
                                   seats is required

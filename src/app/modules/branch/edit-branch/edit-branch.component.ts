@@ -14,9 +14,7 @@ export class EditBranchComponent implements OnInit {
   @ViewChild('modal') modal: ElementRef;
   public branchDatalist: IBranch[] = [];
   public updatebranchSpecificData: FormGroup;
-  public deleteindex: any;
   public updateid: any;
-  public updateindex: any;
   public sortedData: any;
   public term: any;
 
@@ -102,16 +100,10 @@ export class EditBranchComponent implements OnInit {
    * @ author   : dileep_ravula
    */
 
-  public editBranchdata(data, i): void {
+  public editBranchdata(data): void {
     this.branchService.getBranchById(data.id).subscribe(res => {
-      this.updateindex = i;
       this.updateid = data.id;
-      this.updatebranchSpecificData.patchValue({
-        branchName: [res.branchName],
-        branchCode: [res.branchCode],
-        branchAddress: [res.branchAddress],
-        branchContactNumber: [res.branchContactNumber]
-      });
+      this.updatebranchSpecificData.patchValue(res);
     });
   }
 
@@ -126,12 +118,9 @@ export class EditBranchComponent implements OnInit {
     this.branchService
       .updateBranchData(this.updateid, this.updatebranchSpecificData.value)
       .subscribe(res => {
-        this.branchDatalist[
-          this.updateindex
-        ] = this.updatebranchSpecificData.value;
+        this.loadBranchdata();
         alert('Branch updated sucessfully');
       });
-    this.sortedData[this.updateindex] = this.updatebranchSpecificData.value;
     $(this.modal.nativeElement).click();
   }
 
@@ -143,12 +132,9 @@ export class EditBranchComponent implements OnInit {
    */
 
   public deleteBranchdata(data): void {
-    const index = (this.deleteindex = this.branchDatalist
-      .map(x => x.branchName)
-      .indexOf(data.branchName));
     if (confirm('This branch deleted permanently')) {
       this.branchService.deleteBranch(data.id).subscribe(res => {
-        this.branchDatalist.splice(index, 1);
+        this.loadBranchdata();
       });
     }
   }

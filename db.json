@@ -2,49 +2,21 @@
   "branch": [
     {
       "branchName": [
-        "sdfs"
+        [
+          "jkljhhlkjk"
+        ]
       ],
       "branchCode": [
-        "kljlkkjhhj5"
+        [
+          "kjkljlkj"
+        ]
       ],
       "branchAddress": [
-        "jlkj1234567"
+        [
+          "kljkljlkjkl"
+        ]
       ],
-      "branchContactNumber": "kljlkj",
-      "id": 1
-    },
-    {
-      "branchName": [
-        "oijikljkl"
-      ],
-      "branchCode": [
-        "kljlkhkjj45675"
-      ],
-      "branchAddress": "jlkj555567",
-      "branchContactNumber": [
-        "kljlk12"
-      ],
-      "id": 2
-    },
-    {
-      "branchName": "jklj",
-      "branchCode": "jkl2",
-      "branchAddress": "jklj123",
-      "branchContactNumber": "kljlk",
-      "id": 3
-    },
-    {
-      "branchName": "jkljhh",
-      "branchCode": "kjhjh",
-      "branchAddress": "jkhh8",
-      "branchContactNumber": "khjh",
-      "id": 4
-    },
-    {
-      "branchName": "jkljhhlkjk",
-      "branchCode": "kjkljlkj",
-      "branchAddress": "kljkljlkjkl",
-      "branchContactNumber": "jlkjkl",
+      "branchContactNumber": "jlkjkl789",
       "id": 5
     },
     {
@@ -83,10 +55,16 @@
       "id": 10
     },
     {
-      "branchName": "kjhjhkjmnbjhghjgnb",
-      "branchCode": "hghjg",
-      "branchAddress": "jhghj",
-      "branchContactNumber": "ghjgjhg",
+      "branchName": [
+        "kjhjhkjmnbjhghjgnb"
+      ],
+      "branchCode": [
+        "hghjg"
+      ],
+      "branchAddress": [
+        "jhghj"
+      ],
+      "branchContactNumber": "ghjgjhg7",
       "id": 11
     },
     {
@@ -155,39 +133,37 @@
   ],
   "course": [
     {
-      "coursename": "dilep",
+      "coursename": "new course",
       "branch": [
-        "Ameerpet",
-        "Banjara Hills"
+        null,
+        "Banjara Hills",
+        "Dilsukh nagar",
+        "Secunderabad",
+        "Test linux",
+        "Surat",
+        null
       ],
-      "fees": "hjk",
-      "servicetax": "",
-      "totalfee": "",
-      "seats": "",
-      "id": 1
-    },
-    {
-      "coursename": "filrrp",
-      "branch": [
-        "Ameerpet",
-        "Banjara Hills"
-      ],
-      "fees": "250",
-      "servicetax": "",
-      "totalfee": "",
-      "seats": "20",
+      "fees": "45678",
+      "servicetax": 8222.04,
+      "totalfee": 53900.04,
+      "seats": "3",
       "id": 2
     },
     {
-      "coursename": "hkj",
+      "coursename": "azure",
       "branch": [
-        "Ameerpet",
-        "Banjara Hills"
+        null,
+        "Banjara Hills",
+        "Dilsukh nagar",
+        "Secunderabad",
+        null,
+        "Surat",
+        null
       ],
-      "fees": "250",
-      "servicetax": "",
-      "totalfee": "",
-      "seats": "20",
+      "fees": "8888",
+      "servicetax": 1599.84,
+      "totalfee": 10487.84,
+      "seats": "4",
       "id": 3
     }
   ]

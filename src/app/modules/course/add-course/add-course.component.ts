@@ -1,14 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormControl
-} from '@angular/forms';
-import { ICourse } from 'src/app/entities/course.model';
+import { Component, OnInit } from '@angular/core';
+import {FormGroup, FormBuilder, Validators, FormArray, FormControl, ValidatorFn} from '@angular/forms';
 import { CourseService } from 'src/app/services/course/course.service';
-declare var $: any;
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-add-course',
@@ -17,19 +10,18 @@ declare var $: any;
 })
 export class AddCourseComponent implements OnInit {
   public addCourseSpecificForm: FormGroup;
-  public branch: FormArray;
   public taxValue: number;
   public totalCourseFee: number;
-  // branches = ['Ameerpet', 'Banjara Hills', 'Dilsukh nagar', 'Secunderabad', 'Test linux', 'Surat', 'Vijayawada'];
-  Data = [
-    { name: 'Ameerpet', value: 'Ameerpet' },
-    { name: 'Banjara Hills', value: 'Banjara Hills' },
-    { name: 'Dilsukh nagar', value: 'Dilsukh nagar' },
-    { name: 'Secunderabad', value: 'Secunderabad' },
-    { name: 'Test linux', value: 'Test linux' },
-    { name: 'Surat', value: 'Surat' },
-    { name: 'Vijayawada', value: 'Vijayawada' }
+  public branchesDataarr = [
+    { id: 'Ameerpet', name: 'Ameerpet' },
+    { id: 'Banjara Hills', name: 'Banjara Hills' },
+    { id: 'Dilsukh nagar', name: 'Dilsukh nagar' },
+    { id: 'Secunderabad', name: 'Secunderabad' },
+    { id: 'Test linux', name: 'Test linux' },
+    { id: 'Surat', name: 'Surat' },
+    { id: 'Vijayawada', name: 'Vijayawada' }
   ];
+  public branchesData = [];
 
   constructor(private fb: FormBuilder, private courseService: CourseService) {
     this.addCourseForm();
@@ -40,41 +32,51 @@ export class AddCourseComponent implements OnInit {
   public addCourseForm(): void {
     this.addCourseSpecificForm = this.fb.group({
       coursename: ['', [Validators.required]],
-      branch: this.fb.array([]),
+      branch: this.fb.array([], minSelectedCheckboxes(1)),
       fees: ['', [Validators.required]],
       servicetax: [''],
       totalfee: [''],
       seats: ['', [Validators.required]]
     });
+
+    // async orders
+    of(this.getBranches()).subscribe(res => {
+      this.branchesData = res;
+      this.addCheckboxes();
+    });
+
+    // synchronous orders
+    // this.orders = this.getBranches();
+    // this.addCheckboxes();
   }
 
-  public onCheckboxChange(e) {
-    const branch: FormArray = this.addCourseSpecificForm.get(
-      'branch'
-    ) as FormArray;
+  private addCheckboxes() {
+    this.branchesData.forEach((o, i) => {
+      const control = new FormControl(); // i===0 if first item set to true, else false
+      (this.addCourseSpecificForm.controls.branch as FormArray).push(control);
+    });
+  }
 
-    if (e.target.checked) {
-      branch.push(new FormControl(e.target.value));
-    } else {
-      let i = 0;
-      branch.controls.forEach((item: FormControl) => {
-        if (item.value === e.target.value) {
-          branch.removeAt(i);
-          return;
-        }
-        i++;
-      });
-    }
+  getBranches() {
+    return [...this.branchesDataarr];
   }
 
   get courseData() {
     return this.addCourseSpecificForm.controls;
   }
 
-  public calculteTax(): void {
-    this.taxValue = (this.courseData.fees.value * 18) / 100;
-    this.totalCourseFee = this.courseData.fees.value + this.taxValue;
-    console.log(this.totalCourseFee, this.taxValue);
+  /**
+   * @ function : calculteTax
+   * @ Purpose  : caluculating the tax value
+   * @ version  : 1.0.1
+   * @ author   : dileep_ravula
+   */
+
+  public calculateTax(): void {
+    this.taxValue = (this.addCourseSpecificForm.get('fees').value * 18) / 100;
+    this.totalCourseFee = +this.courseData.fees.value + +this.taxValue;
+    this.courseData.servicetax.patchValue(this.taxValue);
+    this.courseData.totalfee.patchValue(this.totalCourseFee);
   }
 
   /**
@@ -84,14 +86,34 @@ export class AddCourseComponent implements OnInit {
    * @ author   : dileep_ravula
    */
 
-  public Submit(): void {
-    this.courseService
-      .addCourse(this.addCourseSpecificForm.value)
-      .subscribe(res => {
-        console.log('saved');
-      });
-    console.log(this.addCourseSpecificForm.value);
-    alert('Course added successfully');
+  public submit(): void {
+    this.addCourseSpecificForm.value.branch = this.addCourseSpecificForm.value.branch
+      .map((v, i) => (v ? this.branchesData[i].id : null));
+    this.courseService.addCourse(this.addCourseSpecificForm.value).subscribe((res) => {
+      alert('course added successfully');
+    });
     this.addCourseSpecificForm.reset();
   }
+
 }
+
+  /**
+   * @ function : minSelectedCheckboxes
+   * @ Purpose  : validatorFn for minselected checkboxes
+   * @ version  : 1.0.1
+   * @ author   : dileep_ravula
+   */
+
+
+function minSelectedCheckboxes(min = 1) {
+  const validator: ValidatorFn = (formArray: FormArray) => {
+    const totalSelected = formArray.controls
+      .map(control => control.value)
+      .reduce((prev, next) => (next ? prev + next : prev), 0);
+
+    return totalSelected >= min ? null : { required: true };
+  };
+
+  return validator;
+}
+

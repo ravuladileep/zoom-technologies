@@ -36,7 +36,7 @@ export class CourseService {
       .pipe(retry(1), catchError(this.errorHandler));
   }
 
-  public getICourseById(id): Observable<ICourse> {
+  public getCourseById(id): Observable<ICourse> {
     return this.http
       .get<ICourse>(this.courseUrl + id)
       .pipe(retry(1), catchError(this.errorHandler));
