@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { BranchService } from 'src/app/services/branch/branch.service';
+import { ToasterService } from 'src/app/shared/dialogs/alerts/toaster.service';
 
 @Component({
   selector: 'app-add-branch',
@@ -11,7 +12,7 @@ import { BranchService } from 'src/app/services/branch/branch.service';
 export class AddBranchComponent implements OnInit {
   public branchSpecificData: FormGroup;
 
-  constructor(private fb: FormBuilder, private branchService: BranchService) {
+  constructor(private fb: FormBuilder, private branchService: BranchService, private toaster: ToasterService) {
     this.addbranchform();
   }
   ngOnInit(): void {}
@@ -40,9 +41,8 @@ export class AddBranchComponent implements OnInit {
     this.branchService
       .addBranch(this.branchSpecificData.value)
       .subscribe(res => {
-        console.log('saved');
+        this.toaster.recordAdded();
       });
-    alert('Branch added successfully');
     this.branchSpecificData.reset();
   }
 }

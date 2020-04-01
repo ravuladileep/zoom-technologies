@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild, ElementRef} from '@angular/core';
 import { BranchService } from 'src/app/services/branch/branch.service';
 import { IBranch } from 'src/app/entities/branch.model';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { ToasterService } from 'src/app/shared/dialogs/alerts/toaster.service';
 
 declare var $: any;
 
@@ -26,7 +27,8 @@ export class EditBranchComponent implements OnInit {
 
   constructor(
     private branchService: BranchService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toaster: ToasterService
   ) {
     this.branchForm();
   }
@@ -119,7 +121,7 @@ export class EditBranchComponent implements OnInit {
       .updateBranchData(this.updateid, this.updatebranchSpecificData.value)
       .subscribe(res => {
         this.loadBranchdata();
-        alert('Branch updated sucessfully');
+        this.toaster.recordUpdated();
       });
     $(this.modal.nativeElement).click();
   }
@@ -135,6 +137,7 @@ export class EditBranchComponent implements OnInit {
     if (confirm('This branch deleted permanently')) {
       this.branchService.deleteBranch(data.id).subscribe(res => {
         this.loadBranchdata();
+        this.toaster.recordDeleted();
       });
     }
   }

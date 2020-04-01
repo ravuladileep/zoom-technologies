@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CommonConstants } from 'src/app/config/constants';
 import { Router } from '@angular/router';
+import { ToasterService } from 'src/app/shared/dialogs/alerts/toaster.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private router: Router, private toaster: ToasterService) {
     this.userLoginForm();
   }
 
@@ -30,5 +31,6 @@ export class LoginComponent implements OnInit {
   public onSubmit(): void {
     CommonConstants.setToken('dummy token');
     this.router.navigate(['dashboard']);
+    this.toaster.loginSuccess();
   }
 }

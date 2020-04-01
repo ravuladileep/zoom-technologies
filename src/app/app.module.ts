@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -37,8 +38,11 @@ import { EditStudentComponent } from './modules/student-info/edit-student/edit-s
 import { SearchStudentComponent } from './modules/student-info/search-student/search-student.component';
 import { StudentImageUploadComponent } from './modules/student-info/student-image-upload/student-image-upload.component';
 import { OrderByPipe } from './shared/pipes/order-by.pipe';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ToasterService } from './shared/dialogs/alerts/toaster.service';
+import { ToastrModule } from 'ngx-toastr';
+import { UserService } from './services/user/user.service';
+
 
 @NgModule({
   declarations: [
@@ -71,20 +75,31 @@ import { NgxPaginationModule } from 'ngx-pagination';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
     RouterModule,
     Ng2SearchPipeModule,
-    NgbPaginationModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ToastrModule.forRoot({
+      timeOut: 3500
+    })
   ],
-  providers: [BranchService, CourseService, AuthGuard, AuthChildGuard, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: MyInterceptor,
-    multi: true
-  }],
+  providers: [
+    BranchService,
+    CourseService,
+    AuthGuard,
+    AuthChildGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MyInterceptor,
+      multi: true
+    },
+    ToasterService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

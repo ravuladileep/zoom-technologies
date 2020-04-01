@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonConstants } from 'src/app/config/constants';
 
@@ -8,7 +8,7 @@ import { CommonConstants } from 'src/app/config/constants';
 })
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean  {
     if (CommonConstants.getToken()) {
       return true;
     } else {

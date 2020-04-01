@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormArray, FormControl, ValidatorFn} from '@angular/forms';
 import { CourseService } from 'src/app/services/course/course.service';
 import { of } from 'rxjs';
+import { ToasterService } from 'src/app/shared/dialogs/alerts/toaster.service';
 
 @Component({
   selector: 'app-add-course',
@@ -23,7 +24,7 @@ export class AddCourseComponent implements OnInit {
   ];
   public branchesData = [];
 
-  constructor(private fb: FormBuilder, private courseService: CourseService) {
+  constructor(private fb: FormBuilder, private courseService: CourseService, private toaster: ToasterService) {
     this.addCourseForm();
   }
 
@@ -90,7 +91,7 @@ export class AddCourseComponent implements OnInit {
     this.addCourseSpecificForm.value.branch = this.addCourseSpecificForm.value.branch
       .map((v, i) => (v ? this.branchesData[i].id : null));
     this.courseService.addCourse(this.addCourseSpecificForm.value).subscribe((res) => {
-      alert('course added successfully');
+      this.toaster.recordAdded();
     });
     this.addCourseSpecificForm.reset();
   }

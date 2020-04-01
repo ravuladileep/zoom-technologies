@@ -3,6 +3,7 @@ import { CourseService } from 'src/app/services/course/course.service';
 import { ICourse } from 'src/app/entities/course.model';
 import { FormBuilder, Validators, FormGroup, ValidatorFn, FormArray, FormControl } from '@angular/forms';
 import { of } from 'rxjs';
+import { ToasterService } from 'src/app/shared/dialogs/alerts/toaster.service';
 declare var $: any;
 @Component({
   selector: 'app-edit-course',
@@ -37,7 +38,8 @@ export class EditCourseComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toaster: ToasterService
   ) {
     this.courseForm();
   }
@@ -172,7 +174,7 @@ export class EditCourseComponent implements OnInit {
       .updateCourseData(this.updateid, this.updateCourseSpecificData.value)
       .subscribe(res => {
         this.loadCourseData();
-        alert('Course updated sucessfully');
+        this.toaster.recordUpdated();
       });
     $(this.modal.nativeElement).click();
   }
@@ -188,6 +190,7 @@ export class EditCourseComponent implements OnInit {
     if (confirm('This course deleted permanently')) {
       this.courseService.deleteCourse(data.id).subscribe(res => {
       this.loadCourseData();
+      this.toaster.recordDeleted();
       });
     }
   }
